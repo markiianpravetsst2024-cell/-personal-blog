@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Мій кабінет{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Мої пости</h1>
+        <a href="{% url 'post_create' %}" class="btn btn-primary">+ Створити пост</a>
+    </div>
+
+    <div class="row g-4">
+        {% for post in posts %}
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">
+                                <a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark">
+                                    {{ post.title }}
+                                </a>
+                            </h5>
+                            <span class="badge bg-success">{{ post.get_status_display }}</span>
+                        </div>
+                        <p class="text-muted small">{{ post.created_at|date:"d.m.Y" }}</p>
+                    </div>
+                    <div class="card-footer d-flex gap-2">
+                        <a href="{% url 'post_edit' post.pk %}" class="btn btn-outline-success btn-sm">Редагувати</a>
+                        <a href="{% url 'post_delete' post.pk %}" class="btn btn-outline-danger btn-sm">Видалити</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Ще немає постів. <a href="{% url 'post_create' %}">Створити перший!</a></p>
+        {% endfor %}
+    </div>
+{% endblock %}

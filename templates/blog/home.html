@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Головна{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4 fw-bold">Останні пости</h1>
+
+    <div class="row g-4">
+        {% for post in posts %}
+            <div class="col-md-4">
+                <div class="card h-100">
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark">
+                                {{ post.title }}
+                            </a>
+                        </h5>
+                        <p class="card-text text-muted">{{ post.excerpt }}</p>
+                    </div>
+                    <div class="card-footer text-muted d-flex justify-content-between">
+                        <small>{{ post.author }}</small>
+                        <small>{{ post.reading_time }} хв читання</small>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Ще немає опублікованих постів.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

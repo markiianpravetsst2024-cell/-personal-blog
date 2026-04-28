@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" class="card-img-top" style="height:300px; object-fit:cover;">
+                {% endif %}
+                <div class="card-body p-4">
+                    <h1 class="fw-bold">{{ post.title }}</h1>
+                    <div class="text-muted mb-3">
+                        <small>
+                            👤 {{ post.author }} &nbsp;|&nbsp;
+                            📁 {{ post.category }} &nbsp;|&nbsp;
+                            🕐 {{ post.reading_time }} хв &nbsp;|&nbsp;
+                            {{ post.created_at|date:"d.m.Y" }}
+                        </small>
+                    </div>
+                    <p class="lead text-muted">{{ post.excerpt }}</p>
+                    <hr>
+                    <p>{{ post.content }}</p>
+                </div>
+                {% if user == post.author %}
+                    <div class="card-footer d-flex gap-2">
+                        <a href="{% url 'post_edit' post.pk %}" class="btn btn-outline-success btn-sm">Редагувати</a>
+                        <a href="{% url 'post_delete' post.pk %}" class="btn btn-outline-danger btn-sm">Видалити</a>
+                    </div>
+                {% endif %}
+            </div>
+            <a href="{% url 'home' %}" class="btn btn-link mt-3">← Назад</a>
+        </div>
+    </div>
+{% endblock %}
